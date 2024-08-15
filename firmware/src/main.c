@@ -57,6 +57,7 @@ static struct sensor_device_t sensor;
 static snsr_data_t _snsr_buffer_data[SNSR_BUF_LEN][SNSR_NUM_AXES];
 static ringbuffer_t snsr_buffer;
 static volatile bool snsr_buffer_overrun = false;
+static volatile bool snsr_status = true;
 
 // *****************************************************************************
 // *****************************************************************************
@@ -132,7 +133,9 @@ static void SNSR_ISR_HANDLER() {
     if (wrcnt == 0)
         snsr_buffer_overrun = true;
     else if ((sensor.status = sensor_read(&sensor, ptr)) == SNSR_STATUS_OK)
-        ringbuffer_advance_write_index(&snsr_buffer, 1);
+        if(snsr_status)
+            ringbuffer_advance_write_index(&snsr_buffer, 1);
+
 }
 
 // *****************************************************************************
@@ -195,7 +198,7 @@ int main ( void )
  
         /* Initialize MPLAB ML Knowledge Pack */
         kb_model_init();
-        sml_output_init(NULL);
+        //sml_output_init(NULL);
         
         /* Display the model knowledge pack UUID */
         const uint8_t *ptr = kb_get_model_uuid_ptr(0);
@@ -260,7 +263,9 @@ int main ( void )
             ringbuffer_size_t rdcnt;
             snsr_dataframe_t const *ptr = ringbuffer_get_read_buffer(&snsr_buffer, &rdcnt);
             while (rdcnt--) {
+                snsr_status = false;
                 int ret = sml_recognition_run((snsr_data_t *) ptr++, SNSR_NUM_AXES);
+                snsr_status = true;
                 ringbuffer_advance_read_index(&snsr_buffer, 1);
                 
                 if (ret >= 0) {

@@ -17,6 +17,8 @@
                 <sourceRootElem>../bmi160</sourceRootElem>
                 <sourceRootElem>../Icm426xx</sourceRootElem>
                 <sourceRootElem>../knowledgepack</sourceRootElem>
+                <sourceRootElem>../application</sourceRootElem>
+                <sourceRootElem>../mplabml</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

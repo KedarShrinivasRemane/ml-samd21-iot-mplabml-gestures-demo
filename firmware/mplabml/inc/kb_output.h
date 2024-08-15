@@ -1,4 +1,3 @@
-
 /*******************************************************************************
 * Copyright (C) 2023 Microchip Technology Inc. and its subsidiaries.
 *
@@ -22,6 +21,7 @@
 * THAT YOU HAVE PAID DIRECTLY TO MICROCHIP FOR THIS SOFTWARE.
  *******************************************************************************/
 
+
 #ifndef _KB_DEBUG_H_
 #define _KB_DEBUG_H_
 
@@ -35,7 +35,7 @@ extern "C"
 #include "kb_defines.h"
 #include "kb.h"
 
-    /**
+/**
 * @brief Generates a string containing the model result information
 *
 * @param[in] model_index Model index to use
@@ -45,9 +45,9 @@ extern "C"
 * @param[in] fv_arr an arrary to store the feature vector results in
 * @returns length of data put into pbuf
 */
-    int32_t kb_print_model_result(int32_t model_index, int32_t result, char *pbuf, bool feature_vectors, uint8_t *fv_arr);
+int32_t kb_sprint_model_result(int32_t model_index, char *pbuf, bool segment_info, bool feature_vectors, bool output_tensor);
 
-    /**
+/**
 * @brief Fills a string with a json of the model output tensor
 *
 * @param[in] model_index Model index to use
@@ -55,7 +55,8 @@ extern "C"
 * @param[in] pbuf char buffer to hold the string
 * @returns length of data put into pbuf
 */
-int32_t kb_print_model_output_tensor(int32_t model_index, int32_t result, char* pbuf );
+int32_t kb_sprint_model_output_tensor(int32_t model_index, char *pbuf);
+
 
 /**
 * @brief Prints the model class map to a char string
@@ -67,10 +68,10 @@ void kb_print_model_class_map(int32_t model_index, char *output);
 
 void kb_print_model_map();
 
-int32_t kb_print_model_cycles(
-    int32_t model_index, char* pbuf, uint32_t* cycles);
-int32_t kb_print_model_times(
-    int32_t model_index, char* pbuf, float* times);
+int32_t kb_sprint_model_cycles(
+int32_t model_index, char *pbuf, uint32_t *cycles);
+int32_t kb_sprint_model_times(
+int32_t model_index, char *pbuf, float *times);
 
 #ifdef __cplusplus
 }
